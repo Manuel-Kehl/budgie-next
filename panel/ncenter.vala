@@ -9,6 +9,9 @@
  * (at your option) any later version.
  */
 
+// This has been deduced empirically and may not fit all GTK themes
+const int MINIMUM_SIDEBAR_WIDTH = 300;
+
 [DBus (name="org.freedesktop.DisplayManager.Seat")]
 public interface DMSeat : Object
 {
@@ -303,6 +306,11 @@ public class NCenter : Gtk.Window
         screen.get_monitor_geometry(mon, out scr);
 
         var width = (int) (scr.width * 0.16);
+        if (width < MINIMUM_SIDEBAR_WIDTH)
+        {
+            width = MINIMUM_SIDEBAR_WIDTH;
+        }
+
         our_width = width;
         our_height = scr.height - offset;
         var y = position == Budgie.PanelPosition.TOP ? scr.y+offset : scr.y;
